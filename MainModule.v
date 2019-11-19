@@ -1,7 +1,7 @@
 module MainModule(dir, grid, clk);
     // the four directions cursor can move
-    // Up - 00, Down - 01, Right - 10, Left - 11
-    input [1:0] dir;
+    // Up - 00, Down - 01, Right - 10, Left - 11, idle - 100
+    input [2:0] dir;
 
     // the grid that displays tic-tac-toe
     reg output [8:0] grid;
@@ -9,17 +9,19 @@ module MainModule(dir, grid, clk);
 endmodule
 module ControlUnit(clk, dir, resetn, current_grid);
     input clk;
-    input [1:0] dir;
+    input [2:0] dir;
     input resetn;
     reg [3:0] current_grid, next_grid;
     output [3:0] current_grid;
 
-    localparam Up = 2'b00, Down = 2'b01, Right = 2'b10, Left = 2'b11;
+    localparam Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100;
 
     always (*) begin
         case (current_grid)
             4'b0000: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0000;
+                else if (dir == Up)
                     next_grid = 4'b0000;
                 else if (dir == Down)
                     next_grid = 4'b0011;
@@ -30,7 +32,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
             
             4'b0001: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0001;
+                else if (dir == Up)
                     next_grid = 4'b0001;
                 else if (dir == Down)
                     next_grid = 4'b0100;
@@ -41,7 +45,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0010: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0010;
+                else (dir == Up)
                     next_grid = 4'b0010;
                 else if (dir == Down)
                     next_grid = 4'b0101;
@@ -52,7 +58,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0011: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0011;
+                else if (dir == Up)
                     next_grid = 4'b0000;
                 else if (dir == Down)
                     next_grid = 4'b0110;
@@ -63,7 +71,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0100: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0100;
+                else if (dir == Up)
                     next_grid = 4'b0001;
                 else if (dir == Down)
                     next_grid = 4'b0111;
@@ -74,7 +84,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0101: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0101;
+                else if (dir == Up)
                     next_grid = 4'b0101;
                 else if (dir == Down)
                     next_grid = 4'b1000;
@@ -85,7 +97,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0110: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0110;
+                else if (dir == Up)
                     next_grid = 4'b0011;
                 else if (dir == Down)
                     next_grid = 4'b0110;
@@ -96,7 +110,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b0111: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b0111;
+                else if (dir == Up)
                     next_grid = 4'b0100;
                 else if (dir == Down)
                     next_grid = 4'b0111;
@@ -107,7 +123,9 @@ module ControlUnit(clk, dir, resetn, current_grid);
             end
 
             4'b1000: begin
-                if (dir == Up)
+                if (dir == Idle)
+                    next_grid = 4'b1000;
+                else if (dir == Up)
                     next_grid = 4'b0101;
                 else if (dir == Down)
                     next_grid = 4'b1000;
