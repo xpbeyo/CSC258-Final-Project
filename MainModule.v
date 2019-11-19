@@ -1,17 +1,21 @@
-module MainModule(dir, grid, clk);
+module MainModule(dir, grid, clk, resetm);
     // the four directions cursor can move
-    // Up - 00, Down - 01, Right - 10, Left - 11, idle - 100
+
+    // Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100
+
     input [2:0] dir;
 
     // the grid that displays tic-tac-toe
-    reg output [8:0] grid;
+    output [8:0] grid;
 
 endmodule
-module ControlUnit(clk, dir, resetn, current_grid);
+module ControlUnit(clk, dir, move, value, resetn, current_grid);
     input clk;
     input [2:0] dir;
     input resetn;
+    input move;
     reg [3:0] current_grid, next_grid;
+    reg output value;
     output [3:0] current_grid;
 
     localparam Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100;
@@ -139,11 +143,13 @@ module ControlUnit(clk, dir, resetn, current_grid);
                 next_grid = 4'b0000;
             end
         endcase
+
     end
 
     always @(posedge clk) begin
         if (~resetn)
             current_grid <= 4'b0000;
+            value = 1'd1;
         else
             current_grid <= next_grid;
     end
@@ -159,7 +165,7 @@ module DataPathGrid(resetn, value, address, clk);
     input clk;
     always @(posedge clk) begin
         if (~resetn)
-            grid[8:0] <= 9'b000000000;
+            grid[8:0] <= 9'd000000000;
         else begin
             if (address == 4'b0000)
                 grid[0] <= value;
