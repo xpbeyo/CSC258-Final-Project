@@ -288,23 +288,23 @@ module DataPathGrid(resetn, value, ld, address, clk);
             grid[8:0] <= 9'd000000000;
         else if (ld) begin
             if (address == 4'b0000)
-                grid[0] <= value;
+                grid[8] <= value;
             else if (address == 4'b0001)
-                grid[1] <= value;
+                grid[7] <= value;
             else if (address == 4'b0010)
-                grid[2] <= value;
+                grid[6] <= value;
             else if (address == 4'b0011)
-                grid[3] <= value;
+                grid[5] <= value;
             else if (address == 4'b0100)
                 grid[4] <= value;
             else if (address == 4'b0101)
-                grid[5] <= value;
+                grid[3] <= value;
             else if (address == 4'b0110)
-                grid[6] <= value;
+                grid[2] <= value;
             else if (address == 4'b0111)
-                grid[7] <= value;
+                grid[1] <= value;
             else if (address == 4'b1000)
-                grid[8] <= value; 
+                grid[0] <= value; 
         end                           
     end
 endmodule
