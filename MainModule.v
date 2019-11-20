@@ -1,21 +1,27 @@
-module MainModule(dir, grid, clk, resetm);
+module MainModule(dir, grid, clk, confirm, pos, resetm);
     // the four directions cursor can move
 
     // Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100
 
     input [2:0] dir;
+    input pos;
+    input confirm;
 
     // the grid that displays tic-tac-toe
     output [8:0] grid;
 
 endmodule
-module ControlUnit(clk, dir, move, value, resetn, current_grid);
+
+module MileStoneOne();
+
+
+
+endmodule
+module ChangeDirection(clk, dir, move, value, resetn, current_grid);
     input clk;
     input [2:0] dir;
     input resetn;
-    input move;
     reg [3:0] current_grid, next_grid;
-    reg output value;
     output [3:0] current_grid;
 
     localparam Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100;
@@ -149,24 +155,109 @@ module ControlUnit(clk, dir, move, value, resetn, current_grid);
     always @(posedge clk) begin
         if (~resetn)
             current_grid <= 4'b0000;
-            value = 1'd1;
         else
             current_grid <= next_grid;
     end
 
 
 endmodule
-module DataPathGrid(resetn, value, address, clk);
+module FSMControl(clk, nreset, confirm, end_sig, ld, value);
+    input clk;
+    input nreset;
+    input confirm;
+    input end_sig;
+    reg current_state, next_state;
+    output reg ld, value;
+    localparam load_one_idle = 4'd0, loa_one = 4'd1, load_b_idle = 4'd2, load_b = 4'd3, end_state = 4'd4;
+    always @(posedge clk) begin
+        if (~nreset) begin
+            current_state <= load_one_idle;
+        end
+            current_state <= next_state;
+    end
+    always @(*) begin
+        case (current_state)
+            load_one_idle: begin
+                if (end_sig)
+                    next_state = end_state;
+                else begin
+                    if (confirm)
+                        next_state = load_one;
+                    else
+                        next_state = load_one_idle;
+
+            end
+            load_one: begin
+                if (end_sig)
+                    next_state = end_state;
+                else begin
+                    if (confirm)
+                        next_state = load_one;
+                    else
+                        next_state = load_two_idle;
+
+            end
+            load_two_idle: begin
+                if (end_sig)
+                    next_state = end_state;
+                else begin
+                    if (confirm)
+                        next_state = load_two;
+                    else
+                        next_state = load_two_idle;
+
+            end
+            load_two: begin
+                if (end_sig)
+                    next_state = end_state;
+                else begin
+                    if (confirm)
+                        next_state = load_two;
+                    else
+                        next_state = load_one_idle;
+
+            end
+
+            end_state: begin
+                next_state = end_state;
+            end
+
+            default:
+                next_state = load_one_idle;
+        endcase
+
+
+    end
+    always @(*) begin
+        value = 2'd0;
+        ld = 1'b0;
+
+        case (current_state):
+            load_one: begin
+                value = 2'd1;
+                ld = 1'b1;
+            end
+            load_two: begin
+                value = 2'd2;
+                ld = 1'b1;
+            end
+
+    end
+
+endmodule
+module DataPathGrid(resetn, value, ld, address, clk);
     // active low reset
     input resetn;
-    input [1:0] value;
+    input value;
+    input ld;
     input [3:0] address;
     reg output [8:0] grid;
     input clk;
     always @(posedge clk) begin
         if (~resetn)
             grid[8:0] <= 9'd000000000;
-        else begin
+            value <= 1'd1;
+        else if (ld) begin
             if (address == 4'b0000)
                 grid[0] <= value;
             else if (address == 4'b0001)
