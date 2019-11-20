@@ -16,6 +16,14 @@ module MainModule(SW, KEY, LEDR, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
         .winner(LEDR[1:0])
     );
 
+    GridDecoder gd(grid[8:0], 
+    HEX5[6:0], 
+    HEX4[6:0], 
+    HEX3[6:0], 
+    HEX2[6:0], 
+    HEX1[6:0], 
+    HEX0[6:0]);
+
 
 endmodule
 
@@ -364,4 +372,52 @@ module SpaceFull(pos, full);
         pos[6] != 10 && pos[7] != 10 && pos[8] != 10)
             assign full = 1'b1;
     else assign full = 1'b0;
+endmodule
+
+module GridDecoder(grid, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
+    input [8:0] grid;
+    output [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
+    HEX5 = 7'b1111111;
+    HEX4 = 7'b1111111;
+    HEX3 = 7'b1111111;
+    HEX2 = 7'b1111111;
+    HEX1 = 7'b1111111;
+    HEX0 = 7'b1111111;
+    if (grid[8] == 2'd1)
+        HEX5[0] = 1'b0;
+    else if (grid[8] == 2'd2) 
+        HEX2[0] = 1'b0;
+    if (grid[7] == 2'd1)
+        HEX4[0] = 1'b0;
+    else if (grid[7] == 2'd2) 
+        HEX1[0] = 1'b0;
+    if (grid[6] == 2'd1)
+        HEX3[0] = 1'b0;
+    else if (grid[6] == 2'd2) 
+        HEX0[0] = 1'b1;
+    if (grid[5] == 2'd1)
+        HEX5[6] = 1'b0;
+    else if (grid[5] == 2'd2) 
+        HEX2[6] = 1'b1;
+    if (grid[4] == 2'd1)
+        HEX4[6] = 1'b0;
+    else if (grid[4] == 2'd2) 
+        HEX1[6] = 1'b1;
+    if (grid[3] == 2'd1)
+        HEX3[6] = 1'b0;
+    else if (grid[3] == 2'd2) 
+        HEX0[6] = 1'b1;
+    if (grid[2] == 2'd1)
+        HEX5[3] = 1'b0;
+    else if (grid[2] == 2'd2) 
+        HEX2[3] = 1'b1;
+    if (grid[1] == 2'd1)
+        HEX4[3] = 1'b0;
+    else if (grid[1] == 2'd2) 
+        HEX1[3] = 1'b1;
+    if (grid[0] == 2'd1)
+        HEX3[3] = 1'b0;
+    else if (grid[0] == 2'd2) 
+        HEX0[3] = 1'b1;
+        
 endmodule
