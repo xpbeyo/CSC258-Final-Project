@@ -295,10 +295,11 @@ module DataPathGrid(resetn, value, ld, address, clk);
         end                           
     end
 endmodule
-module WinCondition(player, pos, winner);
+module WinCondition(player, pos, winner, end_signal);
     input player;  // player 0 has chess O, player 1 has chess X.
     input [8:0] pos;  // 00 represents O, 01 represents X, 10 represents empty.
     output winner;  // who win the game, 00:undetermine, 01: first player, 10: second player, 11: draw.
+    output end_signal;  // 0 if not end, 1 if end.
     wire check_full;  // 0 if not full, 1 if full.
 
     SpaceFull space_detector(.pos(pos[8:0]), .full(check_full));
@@ -311,9 +312,14 @@ module WinCondition(player, pos, winner);
             (pos[1] == 2'b00 && pos[4] == 2'b00 && pos[7] == 2'b00) ||
             (pos[2] == 2'b00 && pos[5] == 2'b00 && pos[8] == 2'b00) ||
             (pos[0] == 2'b00 && pos[4] == 2'b00 && pos[8] == 2'b00) ||  // diagonal
-            (pos[2] == 2'b00 && pos[4] == 2'b00 && pos[6] == 2'b00))
+            (pos[2] == 2'b00 && pos[4] == 2'b00 && pos[6] == 2'b00)) begin
                 assign winner = 2'b01;
-        else assign winner = 2'b00;
+                assign end_signal = 1'b1;
+            end
+        else begin
+            assign winner = 2'b00;
+            assign end_signal = 1'b0;
+        end
     end
 
     else if (player == 1'b1) begin
@@ -324,13 +330,19 @@ module WinCondition(player, pos, winner);
             (pos[1] == 2'b01 && pos[4] == 2'b01 && pos[7] == 2'b01) ||
             (pos[2] == 2'b01 && pos[5] == 2'b01 && pos[8] == 2'b01) ||
             (pos[0] == 2'b01 && pos[4] == 2'b01 && pos[8] == 2'b01) ||  // diagonal
-            (pos[2] == 2'b01 && pos[4] == 2'b01 && pos[6] == 2'b01))
+            (pos[2] == 2'b01 && pos[4] == 2'b01 && pos[6] == 2'b01)) begin
                 assign winner = 2'b10;
-        else assign winner = 2'b00;
+                assign end_signal = 1'b1;
+        else begin
+            assign winner = 2'b00;
+            assign end_signal = 1'b0;
+        end
     end
 
-    if (winner = 2'b00 && check_full == 1'b1)
+    if (winner = 2'b00 && check_full == 1'b1) begin
         assign winner = 2'b11;
+        assign end_signal = 1'b1
+    end
 endmodule
 
 module SpaceFull(pos, full);
