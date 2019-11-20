@@ -295,52 +295,49 @@ module DataPathGrid(resetn, value, ld, address, clk);
         end                           
     end
 endmodule
-module WinCondition(player, pos, winner, end_signal);
-    input player;  // player 0 has chess O, player 1 has chess X.
-    input [8:0] pos;  // 00 represents O, 01 represents X, 10 represents empty.
-    output winner;  // who win the game, 00:undetermine, 01: first player, 10: second player, 11: draw.
+module WinCondition(pos, winner, end_signal);
+    // player one has chess O, player two has chess X.
+    input [8:0] pos;  // 2'd1 represents O, 2'd2 represents X, 2'd0 represents empty.
+    output winner;  // who win the game, 2'd0:undetermine, 2'd1: first player, 2'd2: second player, 2'd3: draw.
     output end_signal;  // 0 if not end, 1 if end.
     wire check_full;  // 0 if not full, 1 if full.
 
     SpaceFull space_detector(.pos(pos[8:0]), .full(check_full));
 
-    if (player == 1'b0) begin
-        if ((pos[0] == 2'b00 && pos[1] == 2'b00 && pos[2] == 2'b00) ||  // horizontal
-            (pos[3] == 2'b00 && pos[4] == 2'b00 && pos[5] == 2'b00) ||
-            (pos[6] == 2'b00 && pos[7] == 2'b00 && pos[8] == 2'b00) ||
-            (pos[0] == 2'b00 && pos[3] == 2'b00 && pos[6] == 2'b00) ||  // vertical
-            (pos[1] == 2'b00 && pos[4] == 2'b00 && pos[7] == 2'b00) ||
-            (pos[2] == 2'b00 && pos[5] == 2'b00 && pos[8] == 2'b00) ||
-            (pos[0] == 2'b00 && pos[4] == 2'b00 && pos[8] == 2'b00) ||  // diagonal
-            (pos[2] == 2'b00 && pos[4] == 2'b00 && pos[6] == 2'b00)) begin
-                assign winner = 2'b01;
-                assign end_signal = 1'b1;
-            end
-        else begin
-            assign winner = 2'b00;
-            assign end_signal = 1'b0;
+    if ((pos[0] == 2'd1 && pos[1] == 2'd1 && pos[2] == 2'd1) ||  // horizontal
+        (pos[3] == 2'd1 && pos[4] == 2'd1 && pos[5] == 2'd1) ||
+        (pos[6] == 2'd1 && pos[7] == 2'd1 && pos[8] == 2'd1) ||
+        (pos[0] == 2'd1 && pos[3] == 2'd1 && pos[6] == 2'd1) ||  // vertical
+        (pos[1] == 2'd1 && pos[4] == 2'd1 && pos[7] == 2'd1) ||
+        (pos[2] == 2'd1 && pos[5] == 2'd1 && pos[8] == 2'd1) ||
+        (pos[0] == 2'd1 && pos[4] == 2'd1 && pos[8] == 2'd1) ||  // diagonal
+        (pos[2] == 2'd1 && pos[4] == 2'd1 && pos[6] == 2'd1)) begin
+            assign winner = 2'd1;
+            assign end_signal = 1'b1;
         end
+    else begin
+        assign winner = 2'd0;
+        assign end_signal = 1'b0;
     end
 
-    else if (player == 1'b1) begin
-        if ((pos[0] == 2'b01 && pos[1] == 2'b01 && pos[2] == 2'b01) ||  // horizontal
-            (pos[3] == 2'b01 && pos[4] == 2'b01 && pos[5] == 2'b01) ||
-            (pos[6] == 2'b01 && pos[7] == 2'b01 && pos[8] == 2'b01) ||
-            (pos[0] == 2'b01 && pos[3] == 2'b01 && pos[6] == 2'b01) ||  // vertical
-            (pos[1] == 2'b01 && pos[4] == 2'b01 && pos[7] == 2'b01) ||
-            (pos[2] == 2'b01 && pos[5] == 2'b01 && pos[8] == 2'b01) ||
-            (pos[0] == 2'b01 && pos[4] == 2'b01 && pos[8] == 2'b01) ||  // diagonal
-            (pos[2] == 2'b01 && pos[4] == 2'b01 && pos[6] == 2'b01)) begin
-                assign winner = 2'b10;
-                assign end_signal = 1'b1;
-        else begin
-            assign winner = 2'b00;
-            assign end_signal = 1'b0;
+    if ((pos[0] == 2'd2 && pos[1] == 2'd2 && pos[2] == 2'd2) ||  // horizontal
+        (pos[3] == 2'd2 && pos[4] == 2'd2 && pos[5] == 2'd2) ||
+        (pos[6] == 2'd2 && pos[7] == 2'd2 && pos[8] == 2'd2) ||
+        (pos[0] == 2'd2 && pos[3] == 2'd2 && pos[6] == 2'd2) ||  // vertical
+        (pos[1] == 2'd2 && pos[4] == 2'd2 && pos[7] == 2'd2) ||
+        (pos[2] == 2'd2 && pos[5] == 2'd2 && pos[8] == 2'd2) ||
+        (pos[0] == 2'd2 && pos[4] == 2'd2 && pos[8] == 2'd2) ||  // diagonal
+        (pos[2] == 2'd2 && pos[4] == 2'd2 && pos[6] == 2'd2)) begin
+            assign winner = 2'd2;
+            assign end_signal = 1'b1;
         end
+    else begin
+        assign winner = 2'd0;
+        assign end_signal = 1'b0;
     end
 
-    if (winner = 2'b00 && check_full == 1'b1) begin
-        assign winner = 2'b11;
+    if (winner = 2'd0 && check_full == 1'b1) begin
+        assign winner = 2'd3;
         assign end_signal = 1'b1
     end
 endmodule
