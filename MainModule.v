@@ -1,40 +1,193 @@
-module MainModule(dir, grid, clk);
+module MainModule(dir, grid, clk, resetm);
     // the four directions cursor can move
-    // Up - 00, Down - 01, Right - 10, Left - 11
-    input [1:0] dir;
+
+    // Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100
+
+    input [2:0] dir;
 
     // the grid that displays tic-tac-toe
-    reg output [8:0] grid;
+    output [8:0] grid;
 
 endmodule
+module ControlUnit(clk, dir, move, value, resetn, current_grid);
+    input clk;
+    input [2:0] dir;
+    input resetn;
+    input move;
+    reg [3:0] current_grid, next_grid;
+    reg output value;
+    output [3:0] current_grid;
 
-<<<<<<< HEAD
-module LoadGrid(value, select, clk);
+    localparam Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100;
+
+    always (*) begin
+        case (current_grid)
+            4'b0000: begin
+                if (dir == Idle)
+                    next_grid = 4'b0000;
+                else if (dir == Up)
+                    next_grid = 4'b0000;
+                else if (dir == Down)
+                    next_grid = 4'b0011;
+                else if (dir == Right) 
+                    next_grid = 4'b0001;
+                else if (dir == Left)
+                    next_grid = 4'b0000;
+            end
+            
+            4'b0001: begin
+                if (dir == Idle)
+                    next_grid = 4'b0001;
+                else if (dir == Up)
+                    next_grid = 4'b0001;
+                else if (dir == Down)
+                    next_grid = 4'b0100;
+                else if (dir == Right) 
+                    next_grid = 4'b0010;
+                else if (dir == Left)
+                    next_grid = 4'b0000;
+            end
+
+            4'b0010: begin
+                if (dir == Idle)
+                    next_grid = 4'b0010;
+                else (dir == Up)
+                    next_grid = 4'b0010;
+                else if (dir == Down)
+                    next_grid = 4'b0101;
+                else if (dir == Right) 
+                    next_grid = 4'b0010;
+                else if (dir == Left)
+                    next_grid = 4'b0001;
+            end
+
+            4'b0011: begin
+                if (dir == Idle)
+                    next_grid = 4'b0011;
+                else if (dir == Up)
+                    next_grid = 4'b0000;
+                else if (dir == Down)
+                    next_grid = 4'b0110;
+                else if (dir == Right) 
+                    next_grid = 4'b0100;
+                else if (dir == Left)
+                    next_grid = 4'b0011;
+            end
+
+            4'b0100: begin
+                if (dir == Idle)
+                    next_grid = 4'b0100;
+                else if (dir == Up)
+                    next_grid = 4'b0001;
+                else if (dir == Down)
+                    next_grid = 4'b0111;
+                else if (dir == Right) 
+                    next_grid = 4'b0101;
+                else if (dir == Left)
+                    next_grid = 4'b0011;
+            end
+
+            4'b0101: begin
+                if (dir == Idle)
+                    next_grid = 4'b0101;
+                else if (dir == Up)
+                    next_grid = 4'b0101;
+                else if (dir == Down)
+                    next_grid = 4'b1000;
+                else if (dir == Right) 
+                    next_grid = 4'b0101;
+                else if (dir == Left)
+                    next_grid = 4'b0100;
+            end
+
+            4'b0110: begin
+                if (dir == Idle)
+                    next_grid = 4'b0110;
+                else if (dir == Up)
+                    next_grid = 4'b0011;
+                else if (dir == Down)
+                    next_grid = 4'b0110;
+                else if (dir == Right) 
+                    next_grid = 4'b0111;
+                else if (dir == Left)
+                    next_grid = 4'b0110;
+            end
+
+            4'b0111: begin
+                if (dir == Idle)
+                    next_grid = 4'b0111;
+                else if (dir == Up)
+                    next_grid = 4'b0100;
+                else if (dir == Down)
+                    next_grid = 4'b0111;
+                else if (dir == Right) 
+                    next_grid = 4'b1000;
+                else if (dir == Left)
+                    next_grid = 4'b0110;
+            end
+
+            4'b1000: begin
+                if (dir == Idle)
+                    next_grid = 4'b1000;
+                else if (dir == Up)
+                    next_grid = 4'b0101;
+                else if (dir == Down)
+                    next_grid = 4'b1000;
+                else if (dir == Right) 
+                    next_grid = 4'b1000;
+                else if (dir == Left)
+                    next_grid = 4'b0111;
+            end
+
+            default: begin
+                next_grid = 4'b0000;
+            end
+        endcase
+
+    end
+
+    always @(posedge clk) begin
+        if (~resetn)
+            current_grid <= 4'b0000;
+            value = 1'd1;
+        else
+            current_grid <= next_grid;
+    end
+
+
+endmodule
+module DataPathGrid(resetn, value, address, clk);
+    // active low reset
+    input resetn;
     input [1:0] value;
-    input [3:0] select;
-    reg [8:0] grid;
+    input [3:0] address;
+    reg output [8:0] grid;
     input clk;
     always @(posedge clk) begin
-        if (select == 4'b0000)
-            grid[0] = value;
-        else if (select == 4'b0001)
-            grid[1] = value;
-        else if (select == 4'b0010)
-            grid[2] = value;
-        else if (select == 4'b0011)
-            grid[3] = value;
-        else if (select == 4'b0100)
-            grid[4] = value;
-        else if (select == 4'b0101)
-            grid[5] = value;
-        else if (select == 4'b0110)
-            grid[6] = value;
-        else if (select == 4'b0111)
-            grid[7] = value;
-        else
-            grid[8] = value;                            
+        if (~resetn)
+            grid[8:0] <= 9'd000000000;
+        else begin
+            if (address == 4'b0000)
+                grid[0] <= value;
+            else if (address == 4'b0001)
+                grid[1] <= value;
+            else if (address == 4'b0010)
+                grid[2] <= value;
+            else if (address == 4'b0011)
+                grid[3] <= value;
+            else if (address == 4'b0100)
+                grid[4] <= value;
+            else if (address == 4'b0101)
+                grid[5] <= value;
+            else if (address == 4'b0110)
+                grid[6] <= value;
+            else if (address == 4'b0111)
+                grid[7] <= value;
+            else if (address == 4'b1000)
+                grid[8] <= value; 
+        end                           
     end
-=======
+endmodule
 module WinCondition(player, pos, winner);
     input player;  // player 0 has chess O, player 1 has chess X.
     input [8:0] pos;  // 00 represents O, 01 represents X, 10 represents empty.
@@ -82,5 +235,4 @@ module SpaceFull(pos, full);
         pos[6] != 10 && pos[7] != 10 && pos[8] != 10)
             assign full = 1'b1;
     else assign full = 1'b0;
->>>>>>> 870a50ec3e2c1cee204855ecd0b0b82d0414a4b1
 endmodule
