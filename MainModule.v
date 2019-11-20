@@ -1,26 +1,33 @@
-module MainModule(dir, grid, clk, confirm, pos, resetm);
-    // the four directions cursor can move
+module MainModule(SW, KEY, LEDR, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
+    // SW[3:0] that specifies the address of intended move
+    input [3:0] SW;
+    // KEY0 clock, KEY1 reset, KEY2 confirm move
+    input [2:0] KEY;
+    // LEDR[1:0] displays the outcome of the game
+    output [1:0] LEDR;
+    output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5;
+    wire [8:0] grid;
+    MileStoneOne mso(
+        .resetn(KEY[1]),
+        .clk(KEY[0]),
+        .confirm(KEY[2]),
+        .address(SW[3:0]),
+        .grid(grid[8:0]),
+        .winner(LEDR[1:0])
+    );
 
-    // Idle = 3'b000, Up = 3'b001, Down = 3'b010, Right = 3'b011, Left = 3'b100
-
-    input [2:0] dir;
-    input pos;
-    input confirm;
-
-    // the grid that displays tic-tac-toe
-    output [8:0] grid;
 
 endmodule
 
-module MileStoneOne(resetn, clk, confirm, address);
+module MileStoneOne(resetn, clk, confirm, address, grid, winner);
     input resetn;
     input clk;
     input confirm;
+    output winner;
+    output [8:0] grid;
     input [3:0] address;
     wire ld, value;
     wire end_signal;
-    wire winner; 
-    wire [8:0] grid;
     WinCondition wc(.pos(grid), 
     .winner(winner), 
     .end_signal(end_signal);
