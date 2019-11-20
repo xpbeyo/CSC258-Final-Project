@@ -12,8 +12,24 @@ module MainModule(dir, grid, clk, confirm, pos, resetm);
 
 endmodule
 
-module MileStoneOne();
-
+module MileStoneOne(resetn, clk, confirm, pos);
+    input resetn;
+    input clk;
+    input confirm;
+    wire ld, value;
+    wire end_signal;
+    wire [8:0] grid;
+    FSMControl control(.clk(clk), 
+    .resetn(resetn), 
+    .confirm(confirm), 
+    end_sig(end_signal), 
+    .ld(ld), 
+    .value(value));
+    DataPathGrid dg(.resetn(resetn), 
+    .value(value), 
+    .ld(ld), 
+    .address(pos), 
+    .clk(clk));
 
 
 endmodule
@@ -161,16 +177,16 @@ module ChangeDirection(clk, dir, move, value, resetn, current_grid);
 
 
 endmodule
-module FSMControl(clk, nreset, confirm, end_sig, ld, value);
+module FSMControl(clk, resetn, confirm, end_sig, ld, value);
     input clk;
-    input nreset;
+    input resetn;
     input confirm;
     input end_sig;
     reg current_state, next_state;
     output reg ld, value;
     localparam load_one_idle = 4'd0, loa_one = 4'd1, load_b_idle = 4'd2, load_b = 4'd3, end_state = 4'd4;
     always @(posedge clk) begin
-        if (~nreset) begin
+        if (~resetn) begin
             current_state <= load_one_idle;
         end
             current_state <= next_state;
