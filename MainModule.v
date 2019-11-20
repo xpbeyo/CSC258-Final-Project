@@ -12,23 +12,30 @@ module MainModule(dir, grid, clk, confirm, pos, resetm);
 
 endmodule
 
-module MileStoneOne(resetn, clk, confirm, pos);
+module MileStoneOne(resetn, clk, confirm, address);
     input resetn;
     input clk;
     input confirm;
+    input [3:0] address;
     wire ld, value;
     wire end_signal;
+    wire winner; 
     wire [8:0] grid;
+    WinCondition wc(.pos(grid), 
+    .winner(winner), 
+    .end_signal(end_signal);
+
     FSMControl control(.clk(clk), 
     .resetn(resetn), 
     .confirm(confirm), 
-    end_sig(end_signal), 
+    .end_sig(end_signal), 
     .ld(ld), 
     .value(value));
+
     DataPathGrid dg(.resetn(resetn), 
     .value(value), 
     .ld(ld), 
-    .address(pos), 
+    .address(address), 
     .clk(clk));
 
 
@@ -272,7 +279,6 @@ module DataPathGrid(resetn, value, ld, address, clk);
     always @(posedge clk) begin
         if (~resetn)
             grid[8:0] <= 9'd000000000;
-            value <= 1'd1;
         else if (ld) begin
             if (address == 4'b0000)
                 grid[0] <= value;
