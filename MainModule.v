@@ -5,7 +5,7 @@ module MainModule(SW, KEY, LEDR, CLOCK_50, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
     input [2:0] KEY;
     // LEDR[1:0] displays the outcome of the game
 	 
-	 input CLOCK_50;
+	input CLOCK_50;
 	 
     output [2:0] LEDR;
     output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5;
@@ -39,7 +39,7 @@ module MileStoneOne(resetn, clk, confirm, address, grid, winner, end_signal);
     output [17:0] grid;
     input [3:0] address;
     wire ld;
-	 wire [1:0] value;
+	wire [1:0] value;
     output end_signal;
     WinCondition wc(.pos(grid[17:0]), 
     .winner(winner[1:0]), 
@@ -213,8 +213,8 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
     input end_sig;
     reg [3:0] current_state, next_state;
     output reg ld;
-	 output reg [1:0] value;
-    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3, end_state = 4'd4;
+	output reg [1:0] value;
+    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3,end_state = 4'd4;
     always @(*) begin
         case (current_state)
             load_one_idle: begin
@@ -347,8 +347,8 @@ module WinCondition(pos, winner, end_signal);
     wire check_full;  // 0 if not full, 1 if full.
 
     SpaceFull space_detector(.pos(pos[17:0]), .full(check_full));
-	 always @(*) begin
-		 if ((pos[1:0] == 2'd1 && pos[3:2] == 2'd1 && pos[5:4] == 2'd1) ||  // horizontal
+	always @(*) begin
+		if ((pos[1:0] == 2'd1 && pos[3:2] == 2'd1 && pos[5:4] == 2'd1) ||  // horizontal
 			  (pos[7:6] == 2'd1 && pos[9:8] == 2'd1 && pos[11:10] == 2'd1) ||
 			  (pos[13:12] == 2'd1 && pos[15:14] == 2'd1 && pos[17:16] == 2'd1) ||
 			  (pos[1:0] == 2'd1 && pos[7:6] == 2'd1 && pos[13:12] == 2'd1) ||  // vertical
@@ -358,10 +358,10 @@ module WinCondition(pos, winner, end_signal);
 			  (pos[5:4] == 2'd1 && pos[9:8] == 2'd1 && pos[13:12] == 2'd1)) begin
 					winner = 2'b01;
 					end_signal = 1'b1;
-			  end
+			end
 	
 
-		 else if ((pos[1:0] == 2'd2 && pos[3:2] == 2'd2 && pos[5:4] == 2'd2) ||  // horizontal
+		else if ((pos[1:0] == 2'd2 && pos[3:2] == 2'd2 && pos[5:4] == 2'd2) ||  // horizontal
 			  (pos[7:6] == 2'd2 && pos[9:8] == 2'd2 && pos[11:10] == 2'd2) ||
 			  (pos[13:12] == 2'd2 && pos[15:14] == 2'd2 && pos[17:16] == 2'd2) ||
 			  (pos[1:0] == 2'd2 && pos[7:6] == 2'd2 && pos[13:12] == 2'd2) ||  // vertical
@@ -372,12 +372,12 @@ module WinCondition(pos, winner, end_signal);
 					winner = 2'b10;
 					end_signal = 1'b1;
 			  end
-		 else begin
+		else begin
 			  winner = 2'b00;
 			  end_signal = 1'b0;
-		 end
+		end
 
-		 if (winner == 2'b00 && check_full == 1'b1) begin
+		if (winner == 2'b00 && check_full == 1'b1) begin
 			  winner = 2'b11;
 			  end_signal = 1'b1;
 		 end
