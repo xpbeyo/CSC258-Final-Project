@@ -291,8 +291,8 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
         if (~resetn) begin
             current_state <= load_one_idle;
         end
-		  else
-				current_state <= next_state;
+            else
+                    current_state <= next_state;
     end
 endmodule
 
@@ -373,74 +373,74 @@ module WinCondition(pos, winner, end_signal);
 					end_signal = 1'b1;
 			  end
 		else begin
-			  winner = 2'b00;
-			  end_signal = 1'b0;
+            winner = 2'b00;
+            end_signal = 1'b0;
 		end
 
 		if (winner == 2'b00 && check_full == 1'b1) begin
-			  winner = 2'b11;
-			  end_signal = 1'b1;
-		 end
-	 end
+            winner = 2'b11;
+            end_signal = 1'b1;
+		end
+	end
 endmodule
 
 module SpaceFull(pos, full);
     input [17:0] pos;  // 2'd1 represents O, 2'd2 represents X, 2'd0 represents empty.
     output reg full;  // 0 represents not full, 1 represents full.
 	always @(*) begin
-		 if (pos[17:16] != 2'd0 && pos[15:14] != 2'd0 && pos[13:12] != 2'd0 &&
-			  pos[11:10] != 2'd0 && pos[9:8] != 2'd0 && pos[7:6] != 2'd0 &&
-			  pos[5:4] != 2'd0 && pos[3:2] != 2'd0 && pos[1:0] != 2'd0)
-					full = 1'b1;
-		 else full = 1'b0;
+        if (pos[17:16] != 2'd0 && pos[15:14] != 2'd0 && pos[13:12] != 2'd0 &&
+            pos[11:10] != 2'd0 && pos[9:8] != 2'd0 && pos[7:6] != 2'd0 &&
+            pos[5:4] != 2'd0 && pos[3:2] != 2'd0 && pos[1:0] != 2'd0)
+                full = 1'b1;
+        else full = 1'b0;
 	end
 endmodule
 
 module GridDecoder(grid, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
     input [17:0] grid;
     output reg [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
-	 always @(*) begin
+	always @(*) begin
 		HEX5 = 7'b1111111;
 		HEX4 = 7'b1111111;
 		HEX3 = 7'b1111111;
 		HEX2 = 7'b1111111;
 		HEX1 = 7'b1111111;
 		HEX0 = 7'b1111111;
-		 if (grid[17:16] == 2'd1)
-			  HEX5[0] = 1'b0;
-		 else if (grid[17:16] == 2'd2) 
-			  HEX2[0] = 1'b0;
-		 if (grid[15:14] == 2'd1)
-			  HEX4[0] = 1'b0;
-		 else if (grid[15:14] == 2'd2) 
-			  HEX1[0] = 1'b0;
-		 if (grid[13:12] == 2'd1)
-			  HEX3[0] = 1'b0;
-		 else if (grid[13:12] == 2'd2) 
-			  HEX0[0] = 1'b0;
-		 if (grid[11:10] == 2'd1)
-			  HEX5[6] = 1'b0;
-		 else if (grid[11:10] == 2'd2) 
-			  HEX2[6] = 1'b0;
-		 if (grid[9:8] == 2'd1)
-			  HEX4[6] = 1'b0;
-		 else if (grid[9:8] == 2'd2) 
-			  HEX1[6] = 1'b0;
-		 if (grid[7:6] == 2'd1)
-			  HEX3[6] = 1'b0;
-		 else if (grid[7:6] == 2'd2) 
-			  HEX0[6] = 1'b0;
-		 if (grid[5:4] == 2'd1)
-			  HEX5[3] = 1'b0;
-		 else if (grid[5:4] == 2'd2) 
-			  HEX2[3] = 1'b0;
-		 if (grid[3:2] == 2'd1)
-			  HEX4[3] = 1'b0;
-		 else if (grid[3:2] == 2'd2) 
-			  HEX1[3] = 1'b0;
-		 if (grid[1:0] == 2'd1)
-			 HEX3[3] = 1'b0;
-		 else if (grid[1:0] == 2'd2) 
-			  HEX0[3] = 1'b0;
+        if (grid[17:16] == 2'd1)
+            HEX5[0] = 1'b0;
+        else if (grid[17:16] == 2'd2) 
+            HEX2[0] = 1'b0;
+        if (grid[15:14] == 2'd1)
+            HEX4[0] = 1'b0;
+        else if (grid[15:14] == 2'd2) 
+            HEX1[0] = 1'b0;
+        if (grid[13:12] == 2'd1)
+            HEX3[0] = 1'b0;
+        else if (grid[13:12] == 2'd2) 
+            HEX0[0] = 1'b0;
+        if (grid[11:10] == 2'd1)
+            HEX5[6] = 1'b0;
+        else if (grid[11:10] == 2'd2) 
+            HEX2[6] = 1'b0;
+        if (grid[9:8] == 2'd1)
+            HEX4[6] = 1'b0;
+        else if (grid[9:8] == 2'd2) 
+            HEX1[6] = 1'b0;
+        if (grid[7:6] == 2'd1)
+            HEX3[6] = 1'b0;
+        else if (grid[7:6] == 2'd2) 
+            HEX0[6] = 1'b0;
+        if (grid[5:4] == 2'd1)
+            HEX5[3] = 1'b0;
+        else if (grid[5:4] == 2'd2) 
+            HEX2[3] = 1'b0;
+        if (grid[3:2] == 2'd1)
+            HEX4[3] = 1'b0;
+        else if (grid[3:2] == 2'd2) 
+            HEX1[3] = 1'b0;
+        if (grid[1:0] == 2'd1)
+            HEX3[3] = 1'b0;
+        else if (grid[1:0] == 2'd2) 
+            HEX0[3] = 1'b0;
 	end
 endmodule
