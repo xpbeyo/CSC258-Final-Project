@@ -374,7 +374,7 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
     end
 endmodule
 
-module DataPathGrid(resetn, value, ld, address, grid, draw_grid, clk);
+module DataPathGrid(resetn, value, ld, address, grid, clk);
     // active low reset
     input resetn;
     input [1:0] value;
@@ -415,16 +415,38 @@ module DataPathGrid(resetn, value, ld, address, grid, draw_grid, clk);
             else if (address == 4'b1000)
                 grid[2][2] <= value; 
         end
-        for (y = 0; y < 160; y = y + 1) begin
-            for (x = 0; x < 120; x = x + 1) begin
-                if (grid[y][x] == 2'd1) begin
-                    
-
-                end
-
-            end
-        end
     end
+endmodule
+
+module ActualToDraw(grid, x_out, y_out, colour_in, colour_out, clk, resetn);
+    input [1:0] grid [2:0][2:0];
+    input [2:0] colour_in;
+    input clk, resetn;
+    wire [7:0] x;
+    wire [6:0] y;
+    output [7:0] x_out;
+    output [6:0] y_out;
+    output [2:0] colour_out;
+    assign colour_out = colour_in;
+    reg [3:0] enable;
+
+    always @(*) begin
+        if (enable == 0) begin
+            
+        end
+
+    end
+
+    always @(posedge clk) begin
+        if (~resetn) begin
+            enable = 4'd0;
+        end
+
+    end
+    
+
+
+
 endmodule
 
 module WinCondition(grid, winner, end_signal);
