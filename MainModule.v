@@ -374,7 +374,7 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
     end
 endmodule
 
-module DataPathGrid(resetn, value, ld, address, grid, draw_grid, clk);
+module DataPathGrid(resetn, value, ld, address, grid, clk);
     // active low reset
     input resetn;
     input [1:0] value;
@@ -415,16 +415,38 @@ module DataPathGrid(resetn, value, ld, address, grid, draw_grid, clk);
             else if (address == 4'b1000)
                 grid[2][2] <= value; 
         end
-        for (y = 0; y < 160; y = y + 1) begin
-            for (x = 0; x < 120; x = x + 1) begin
-                if (grid[y][x] == 2'd1) begin
-                    
-
-                end
-
-            end
-        end
     end
+endmodule
+
+module ActualToDraw(grid, x_out, y_out, colour_in, colour_out, clk, resetn);
+    input [1:0] grid [2:0][2:0];
+    input [2:0] colour_in;
+    input clk, resetn;
+    wire [7:0] x;
+    wire [6:0] y;
+    output [7:0] x_out;
+    output [6:0] y_out;
+    output [2:0] colour_out;
+    assign colour_out = colour_in;
+    reg [3:0] enable;
+
+    always @(*) begin
+        if (enable == 0) begin
+            
+        end
+
+    end
+
+    always @(posedge clk) begin
+        if (~resetn) begin
+            enable = 4'd0;
+        end
+
+    end
+    
+
+
+
 endmodule
 
 module WinCondition(grid, winner, end_signal);
@@ -532,106 +554,3 @@ module GridDecoder(grid, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
             HEX0[3] = 1'b0;
 	end
 endmodule
-
-module ActualPositionDecoder(grid, i_x, i_y, x_out, y_out, colour_out);
-    input [1:0] grid [2:0][2:0];  // 2'd0 empty, 2d'1 O, 2d'2 X.
-    input i_x, i_y;
-    output reg x_out, y_out, colour_out;
-    always @(*) begin
-        if (i_x == 0) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-        end
-        else if (i_x == 1) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-        end
-        else if (i_x == 2) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
-            end
-        end    
-    end
