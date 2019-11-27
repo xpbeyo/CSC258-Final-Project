@@ -88,7 +88,6 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
             else begin
                 count_x <= count_x + 5'd1;
             end
-
         end
     end
 
@@ -101,20 +100,15 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
 
         else if (enable_y) begin
             if (count_y) == piece_width begin
-                count_y == 5'd27;
+                count_y == 5'd0;
             end
 
             else
                 count_y <= count_y + 5'd1;
-
-
         end
 
     end
 
     assign x_out = x + count_x;
     assign y_out = y + count_y;
-
-
-
 endmodule
