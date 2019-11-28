@@ -1,7 +1,7 @@
 module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
-    input [1:0] grid [2:0][2:0];
+    input [17:0] grid;
     input clk, resetn;
-    reg pos_i, pos_j;
+    reg [4:0] pos_i, pos_j;
     wire [7:0] x;
     wire [6:0] y;
     output [7:0] x_out;
@@ -13,7 +13,7 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
     // Counters
     reg [4:0] count_x, count_y; 
     ActualPositionDecoder apd(
-        .grid(grid),
+        .grid(grid[17:0]),
         .i_x(pos_i),
         .i_y(pos_j),
         .x_out(x),
@@ -24,40 +24,40 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
     always @(*) begin
         case (enable)
             4'd0: begin
-                pos_i = 4'd0;
-                pos_j = 4'd0;
+                pos_i = 5'd17;
+                pos_j = 5'd16;
             end
             4'd1: begin
-                pos_i = 4'd0;
-                pos_j = 4'd1;
+                pos_i = 5'd15;
+                pos_j = 5'd14;
             end
             4'd2: begin
-                pos_i = 4'd0;
-                pos_j = 4'd2;
+                pos_i = 5'd13;
+                pos_j = 5'd12;
             end
             4'd3: begin
-                pos_i = 4'd1;
-                pos_j = 4'd0;
+                pos_i = 5'd11;
+                pos_j = 5'd10;
             end
             4'd4: begin
-                pos_i = 4'd1;
-                pos_j = 4'd1;
+                pos_i = 5'd9;
+                pos_j = 5'd8;
             end
             4'd5: begin
-                pos_i = 4'd1;
-                pos_j = 4'd2;
+                pos_i = 5'd7;
+                pos_j = 5'd6;
             end
             4'd6: begin
-                pos_i = 4'd2;
-                pos_j = 4'd0;
+                pos_i = 5'd5;
+                pos_j = 5'd4;
             end
             4'd7: begin
-                pos_i = 4'd2;
-                pos_j = 4'd1;
+                pos_i = 5'd3;
+                pos_j = 5'd2;
             end
             4'd8: begin
-                pos_i = 4'd2;
-                pos_j = 4'd2;
+                pos_i = 5'd1;
+                pos_j = 5'd0;
             end
 
         endcase

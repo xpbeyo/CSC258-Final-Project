@@ -37,7 +37,7 @@ module MainModule
 	output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
 	
 	wire resetn;
-    wire grid [17:0];
+    wire [1:0] grid [2:0][2:0];
 	assign resetn = KEY[0];
 
 
@@ -53,7 +53,7 @@ module MainModule
         .clk(CLOCK_50),
         .confirm(KEY[1]),
         .address(SW[3:0]),
-        .grid(grid[17:0]),
+        .grid(grid[2:0][2:0]]),
         .winner(LEDR[1:0]),
         .x_out(x),
         .y_out(y),
@@ -105,11 +105,11 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
     output [6:0] y_out;
     output [2:0] colour_out;
     output [1:0] winner;
-    output [17:0] grid;
+    output [1:0] grid [2:0][2:0];;
     wire ld;
 	wire [1:0] value;
     output end_signal;
-    WinCondition wc(.grid(grid[17:0]), 
+    WinCondition wc(.grid(grid[2:0][2:0]), 
     .winner(winner[1:0]), 
     .end_signal(end_signal));
 
@@ -125,7 +125,7 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
     .value(value), 
     .ld(ld), 
     .address(address),
-	.grid(grid[17:0]),
+	.grid(grid[2:0][2:0]),
     .clk(clk));
 
     ActualToDraw atd(
@@ -232,40 +232,40 @@ module DataPathGrid(resetn, value, ld, address, grid, clk);
     input [1:0] value;
     input ld;
     input [3:0] address;
-    output reg [17:0] grid;
+    output reg [1:0] grid [2:0][2:0];
     output reg [2:0] draw_grid [0:159][0:119];
     input clk;
     always @(gridedge clk) begin
         if (~resetn) begin
-            grid[17:16] = 2'd0;
-            grid[15:14] = 2'd0;
-            grid[13:12] = 2'd0;
-            grid[11:10] = 2'd0;
-            grid[9:8] = 2'd0;
-            grid[7:6] = 2'd0;
-            grid[5:4] = 2'd0;
-            grid[3:2] = 2'd0;
-            grid[1:0] = 2'd0;
+            grid[0][0] = 2'd0;
+            grid[0][1] = 2'd0;
+            grid[0][2] = 2'd0;
+            grid[1][0] = 2'd0;
+            grid[1][1] = 2'd0;
+            grid[1][2] = 2'd0;
+            grid[2][0] = 2'd0;
+            grid[2][1] = 2'd0;
+            grid[2][2] = 2'd0;
 		end
         else if (ld) begin
             if (address == 4'b0000)
-                grid[17:16] <= value;
+                grid[0][0] <= value;
             else if (address == 4'b0001)
-                grid[15:14] <= value;
+                grid[0][1] <= value;
             else if (address == 4'b0010)
-                grid[13:12] <= value;
+                grid[0][2] <= value;
             else if (address == 4'b0011)
-                grid[11:10] <= value;
+                grid[1][0] <= value;
             else if (address == 4'b0100)
-                grid[9:8] <= value;
+                grid[1][1] <= value;
             else if (address == 4'b0101)
-                grid[7:6] <= value;
+                grid[1][2] <= value;
             else if (address == 4'b0110)
-                grid[5:4] <= value;
+                grid[2][0] <= value;
             else if (address == 4'b0111)
-                grid[3:2] <= value;
+                grid[2][1] <= value;
             else if (address == 4'b1000)
-                grid[1:0] <= value; 
+                grid[2][2] <= value; 
         end
     end
 endmodule
