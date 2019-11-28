@@ -1,104 +1,125 @@
 
 module ActualPositionDecoder(grid, i_x, i_y, x_out, y_out, colour_out);
-    input [1:0] grid [2:0][2:0];  // 2'd0 empty, 2d'1 O, 2d'2 X.
+    input grid [17:0];  // 2'd0 empty, 2d'1 O, 2d'2 X.
     input i_x, i_y;
     output reg x_out, y_out, colour_out;
     always @(*) begin
-        if (i_x == 0) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+        if (i_x == 5'd17 & i_y == 5'd16) begin
+            assign x_out = 37;
+            assign y_out = 7;
+            if (grid[17:16] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
             end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[17:16] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
             end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 7;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[17:16] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
             end
         end
-        else if (i_x == 1) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+        else if (i_x == 5'd15 & i_y == 5'd14) begin
+            assign x_out = 67;
+            assign y_out = 7;
+            if (grid[15:14] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
             end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[15:14] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
             end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 37;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[15:14] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
             end
         end
-        else if (i_x == 2) begin
-            if (i_y == 0) begin
-                x = 37;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+        else if (i_x == 5'd13 & i_y == 5'd12) begin
+            assign x_out = 97;
+            assign y_out = 7;
+            if (grid[13:12] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
             end
-            else if (i_y == 1) begin
-                x = 67;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[13:12] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
             end
-            else if (i_y == 2) begin
-                x = 97;
-                y = 67;
-                if (grid[i_x][i_y] == 2d'0)
-                    colour = 3'b111;  //white
-                else if (grid[i_x][i_y] == 2d'1)
-                    colour = 3'b011;  //light blue
-                else if (grid[i_x][i_y] == 2d'2)
-                    colour = 3'b101;  //purple
+            else if (grid[13:12] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
             end
-        end    
+        end
+        else if (i_x == 5'd11 & i_y == 5'd10) begin
+            assign x_out = 37;
+            assign y_out = 37;
+            if (grid[11:10] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[11:10] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[11:10] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end
+        else if (i_x == 5'd9 & i_y == 5'd8) begin
+            assign x_out = 67;
+            assign y_out = 37;
+            if (grid[9:8] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[9:8] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[9:8] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end
+        else if (i_x == 5'd7 & i_y == 5'd6) begin
+            assign x_out = 97;
+            assign y_out = 37;
+            if (grid[7:6] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[7:6] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[7:6] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end
+        else if (i_x == 5'd5 & i_y == 5'd4) begin
+            assign x_out = 37;
+            assign y_out = 67;
+            if (grid[5:4] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[5:4] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[5:4] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end
+        else if (i_x == 5'd3 & i_y == 5'd2) begin
+            assign x_out = 67;
+            assign y_out = 67;
+            if (grid[3:2] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[3:2] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[3:2] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end
+        else if (i_x == 5'd1 & i_y == 5'd0) begin
+            assign x_out = 97;
+            assign y_out = 67;
+            if (grid[1:0] == 2'd0) begin
+                assign colour_out = 3'b111;  //white
+            end
+            else if (grid[1:0] == 2'd1) begin
+                assign colour_out = 3'b011;  //light blue
+            end
+            else if (grid[1:0] == 2'd2) begin
+                assign colour_out = 3'b101;  //purple
+            end
+        end  
     end
 endmodule
