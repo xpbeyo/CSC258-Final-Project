@@ -133,7 +133,7 @@ module ChangeDirection(clk, dir, resetn, current_grid);
 
    end
 
-   always @(gridedge clk) begin
+   always @(posedge clk) begin
        if (~resetn)
            current_grid <= 4'b0000;
        else

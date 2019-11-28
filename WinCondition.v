@@ -1,6 +1,6 @@
 module WinCondition(grid, winner, end_signal);
     // player one has chess O, player two has chess X.
-    input grid [17:0];  // 2'd1 represents O, 2'd2 represents X, 2'd0 represents empty.
+    input [17:0] grid;  // 2'd1 represents O, 2'd2 represents X, 2'd0 represents empty.
     output reg [1:0] winner;  // who win the game, 2'b00:undetermine, 2'b01: first player, 2'b10: second player, 2'b11: draw.
     output reg end_signal;  // 0 if not end, 1 if end.
     wire check_full;  // 0 if not full, 1 if full.

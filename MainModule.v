@@ -37,7 +37,7 @@ module MainModule
 	output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
 	
 	wire resetn;
-    wire grid [17:0];
+   wire  [17:0] grid;
 	assign resetn = KEY[0];
 
 
@@ -217,7 +217,7 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
 		endcase
 
     end
-	always @(gridedge clk) begin
+	always @(posedge clk) begin
         if (~resetn) begin
             current_state <= load_one_idle;
         end
@@ -233,9 +233,8 @@ module DataPathGrid(resetn, value, ld, address, grid, clk);
     input ld;
     input [3:0] address;
     output reg [17:0] grid;
-    output reg [2:0] draw_grid [0:159][0:119];
     input clk;
-    always @(gridedge clk) begin
+    always @(posedge clk) begin
         if (~resetn) begin
             grid[17:16] = 2'd0;
             grid[15:14] = 2'd0;

@@ -65,19 +65,14 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
 
     end
 
-    always @(posedge clk) begin
-        if (~resetn) begin
-            enable <= 4'd0;
-        end
-    end
-
     // Counter for x
     always @(posedge clk) begin
         if (~resetn) begin
+		      enable <= 4'd0;
             count_x <= 5'd0;
         end
         else begin
-            if (count_x == piece_width)
+            if (count_x == piece_width) begin
                 if (count_y == piece_width) begin
                     if (enable < 4'd8)
                         enable <= enable + 4'd1;
@@ -85,6 +80,7 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
                         enable <= 4'd0;
                 end
                 count_x <= 5'd0;
+				end
             else begin
                 count_x <= count_x + 5'd1;
             end
@@ -99,8 +95,8 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
         end
 
         else if (enable_y) begin
-            if (count_y) == piece_width begin
-                count_y == 5'd0;
+            if (count_y == piece_width) begin
+                count_y <= 5'd0;
             end
 
             else
