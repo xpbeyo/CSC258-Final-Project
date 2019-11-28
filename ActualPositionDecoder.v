@@ -1,8 +1,11 @@
 
 module ActualPositionDecoder(grid, i_x, i_y, x_out, y_out, colour_out);
     input  [17:0] grid;  // 2'd0 empty, 2d'1 O, 2d'2 X.
-    input i_x, i_y;
-    output reg x_out, y_out, colour_out;
+    input [7:0] i_x;
+    input [6:0] i_y;
+    output [7:0] x_out;
+    output [6:0] y_out;
+    output [2:0] colour_out;
     always @(*) begin
         if (i_x == 5'd17 & i_y == 5'd16) begin
             x_out = 37;
