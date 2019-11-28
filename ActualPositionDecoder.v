@@ -1,6 +1,6 @@
 
 module ActualPositionDecoder(grid, i_x, i_y, x_out, y_out, colour_out);
-    input grid [17:0];  // 2'd0 empty, 2d'1 O, 2d'2 X.
+    input  [17:0] grid;  // 2'd0 empty, 2d'1 O, 2d'2 X.
     input i_x, i_y;
     output reg x_out, y_out, colour_out;
     always @(*) begin
