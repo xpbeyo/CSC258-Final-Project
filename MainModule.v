@@ -13,7 +13,13 @@ module MainModule
 		VGA_SYNC_N,						//	VGA SYNC
 		VGA_R,   						//	VGA Red[9:0]
 		VGA_G,	 						//	VGA Green[9:0]
-		VGA_B   						//	VGA Blue[9:0]
+		VGA_B, 						//	VGA Blue[9:0]
+		HEX5,
+		HEX4,
+		HEX3,
+		HEX2,
+		HEX1,
+		HEX0
 	);
 
     // SW[3:0] that specifies the address of intended move
@@ -35,6 +41,8 @@ module MainModule
 	output	[9:0]	VGA_R;   				//	VGA Red[9:0]
 	output	[9:0]	VGA_G;	 				//	VGA Green[9:0]
 	output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
+	
+	output [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
 	
 	wire resetn;
    wire  [17:0] grid;
@@ -60,6 +68,16 @@ module MainModule
         .colour_out(colour),
 		.end_signal(LEDR[2])
     );
+	 
+	 GridDecoder gd(
+	 .grid(grid[17:0]),
+	 .HEX5(HEX5[6:0]),
+	 .HEX4(HEX4[6:0]),
+	 .HEX3(HEX3[6:0]),
+	 .HEX2(HEX2[6:0]),
+	 .HEX1(HEX1[6:0]),
+	 .HEX0(HEX0[6:0])
+	 );
 
 	// Create an Instance of a VGA controller - there can be only one!
 	// Define the number of colours as well as the initial background

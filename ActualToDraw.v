@@ -8,6 +8,7 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
     output [6:0] y_out;
     output [2:0] colour_out;
     reg [3:0] enable;
+	
     localparam piece_width = 5'd26;
 
     // Counters
@@ -21,44 +22,49 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
         .colour_out(colour_out)
     );
 
-    always @(*) begin
+    always @(posedge clk) begin
         case (enable)
             4'd0: begin
-                pos_i = 5'd17;
-                pos_j = 5'd16;
+                pos_i <= 5'd17;
+                pos_j <= 5'd16;
             end
             4'd1: begin
-                pos_i = 5'd15;
-                pos_j = 5'd14;
+                pos_i <= 5'd15;
+                pos_j <= 5'd14;
             end
             4'd2: begin
-                pos_i = 5'd13;
-                pos_j = 5'd12;
+                pos_i <= 5'd13;
+                pos_j <= 5'd12;
             end
             4'd3: begin
-                pos_i = 5'd11;
-                pos_j = 5'd10;
+                pos_i <= 5'd11;
+                pos_j <= 5'd10;
             end
             4'd4: begin
-                pos_i = 5'd9;
-                pos_j = 5'd8;
+                pos_i <= 5'd9;
+                pos_j <= 5'd8;
             end
             4'd5: begin
-                pos_i = 5'd7;
-                pos_j = 5'd6;
+                pos_i <= 5'd7;
+                pos_j <= 5'd6;
             end
             4'd6: begin
-                pos_i = 5'd5;
-                pos_j = 5'd4;
+                pos_i <= 5'd5;
+                pos_j <= 5'd4;
             end
             4'd7: begin
-                pos_i = 5'd3;
-                pos_j = 5'd2;
+                pos_i <= 5'd3;
+                pos_j <= 5'd2;
             end
             4'd8: begin
-                pos_i = 5'd1;
-                pos_j = 5'd0;
+                pos_i <= 5'd1;
+                pos_j <= 5'd0;
             end
+			
+			default: begin
+				pos_i <= 5'd17;
+                pos_j <= 5'd16;
+			end
 
         endcase
 
@@ -68,7 +74,7 @@ module ActualToDraw(grid, x_out, y_out, colour_out, clk, resetn);
     // Counter for x
     always @(posedge clk) begin
         if (~resetn) begin
-		      enable <= 4'd0;
+		    enable <= 4'd0;
             count_x <= 5'd0;
         end
         else begin
