@@ -45,7 +45,7 @@ module MainModule
 	output [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
 	
 	wire resetn;
-   wire  [17:0] grid;
+    wire  [17:0] grid;
 	assign resetn = KEY[0];
 
 
@@ -69,15 +69,15 @@ module MainModule
 		.end_signal(LEDR[2])
     );
 	 
-	 GridDecoder gd(
-	 .grid(grid[17:0]),
-	 .HEX5(HEX5[6:0]),
-	 .HEX4(HEX4[6:0]),
-	 .HEX3(HEX3[6:0]),
-	 .HEX2(HEX2[6:0]),
-	 .HEX1(HEX1[6:0]),
-	 .HEX0(HEX0[6:0])
-	 );
+    GridDecoder gd(
+        .grid(grid[17:0]),
+        .HEX5(HEX5[6:0]),
+        .HEX4(HEX4[6:0]),
+        .HEX3(HEX3[6:0]),
+        .HEX2(HEX2[6:0]),
+        .HEX1(HEX1[6:0]),
+        .HEX0(HEX0[6:0])
+    );
 
 	// Create an Instance of a VGA controller - there can be only one!
 	// Define the number of colours as well as the initial background
@@ -124,7 +124,7 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
     output [2:0] colour_out;
     output [1:0] winner;
     output [17:0] grid;
-    wire ld;
+    wire ld_grid, ld_score, board_clear;
 	wire [1:0] value;
     output end_signal;
     WinCondition wc(.grid(grid[17:0]), 
@@ -134,17 +134,19 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
     FSMControl control(.clk(clk), 
     .resetn(resetn), 
     .confirm(confirm), 
+    .winner(winner[1:0]),
     .end_sig(end_signal), 
     .ld(ld), 
     .value(value));
 
     DataPathGrid dg(
-	.resetn(resetn), 
-    .value(value), 
-    .ld(ld), 
-    .address(address),
-	.grid(grid[17:0]),
-    .clk(clk));
+        .resetn(resetn), 
+        .value(value), 
+        .ld(ld), 
+        .address(address),
+        .grid(grid[17:0]),
+        .clk(clk)
+    );
 
     ActualToDraw atd(
         .grid(grid),
@@ -155,15 +157,17 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
         .resetn(resetn)
     );
 endmodule
-module FSMControl(clk, resetn, confirm, end_sig, ld, value);
+module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_score, board_clear, value);
     input clk;
     input resetn;
     input confirm;
     input end_sig;
+    input restart;
+    input [1:0] winner;
     reg [3:0] current_state, next_state;
-    output reg ld;
+    output reg ld_grid, ld_score, board_clear;
 	output reg [1:0] value;
-    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3,end_state = 4'd4;
+    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3,end_state = 4'd4, end_state_idle = 4'd5;
     always @(*) begin
         case (current_state)
             load_one_idle: begin
@@ -209,29 +213,35 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
             end
 
             end_state: begin
-                next_state = end_state;
-            end
-
+                next_state = end_state_idle;
+            end_state_idle: begin
+                if (~restart)
+                    next_state = load_one_idle;
+                else
+                    next_state = end_state_idle;
             default: begin
                 next_state = load_one_idle;
-				end
+			end
         endcase
-
-
     end
     always @(*) begin
         value = 2'd0;
-        ld = 1'b0;
-
+        ld_grid = 1'b0;
+        ld_score = 1'b0;
+        board_clear = 1'b0;
         case (current_state)
             load_one: begin
                 value = 2'd1;
-                ld = 1'b1;
+                ld_grid = 1'b1;
             end
             load_two: begin
                 value = 2'd2;
-                ld = 1'b1;
+                ld_grid = 1'b1;
             end
+            end_state:
+                ld_score = 1'b1;
+            end_state_idle:
+                board_clear = 1'b1;
 		endcase
 
     end
@@ -244,13 +254,15 @@ module FSMControl(clk, resetn, confirm, end_sig, ld, value);
     end
 endmodule
 
-module DataPathGrid(resetn, value, ld, address, grid, clk);
+module DataPathGrid(resetn, value, ld_grid, ld_score, board_clear, address_grid, winner, grid, p1, p2, tie, clk);
     // active low reset
     input resetn;
     input [1:0] value;
-    input ld;
-    input [3:0] address;
+    input ld_grid, ld_score, board_clear;
+    input [3:0] address_grid;
+    input [1:0] winner;
     output reg [17:0] grid;
+    output reg [3:0] p1, p2, tie;
     input clk;
     always @(posedge clk) begin
         if (~resetn) begin
@@ -263,8 +275,22 @@ module DataPathGrid(resetn, value, ld, address, grid, clk);
             grid[5:4] = 2'd0;
             grid[3:2] = 2'd0;
             grid[1:0] = 2'd0;
+            p1[3:0] = 4'h0;
+            p2[3:0] = 4'h0;
+            tie[3:0] = 4'h0;
 		end
-        else if (ld) begin
+        else if (board_clear) begin
+            grid[17:16] = 2'd0;
+            grid[15:14] = 2'd0;
+            grid[13:12] = 2'd0;
+            grid[11:10] = 2'd0;
+            grid[9:8] = 2'd0;
+            grid[7:6] = 2'd0;
+            grid[5:4] = 2'd0;
+            grid[3:2] = 2'd0;
+            grid[1:0] = 2'd0;
+        end
+        else if (ld_grid) begin
             if (address == 4'b0000)
                 grid[17:16] <= value;
             else if (address == 4'b0001)
@@ -283,6 +309,14 @@ module DataPathGrid(resetn, value, ld, address, grid, clk);
                 grid[3:2] <= value;
             else if (address == 4'b1000)
                 grid[1:0] <= value; 
+        end
+        else if (ld_score) begin
+            if (winner == 2'd01)
+                p1 <= p1 + 4'h1;
+            else if (winner == 2'd10)
+                p2 <= p2 + 4'h1;
+            else if (winner == 2'd11)
+                tie <= tie + 4'h1;
         end
     end
 endmodule
