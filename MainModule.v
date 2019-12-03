@@ -23,7 +23,7 @@ module MainModule
 	);
 
     // SW[3:0] that specifies the address of intended move
-    // KEY[0] reset, KEY[1] confirm move
+    // KEY[0] reset, KEY[1] confirm move, KEY[2] restart
 	input			CLOCK_50;				//	50 MHz
 	input   [9:0]   SW;
 	input   [3:0]   KEY;
@@ -60,8 +60,9 @@ module MainModule
         .resetn(KEY[0]),
         .clk(CLOCK_50),
         .confirm(KEY[1]),
-        .address(SW[3:0]),
+        .address_grid(SW[3:0]),
         .grid(grid[17:0]),
+        .restart(KEY[2]),
         .winner(LEDR[1:0]),
         .x_out(x),
         .y_out(y),
@@ -101,7 +102,7 @@ module MainModule
 		defparam VGA.RESOLUTION = "160x120";
 		defparam VGA.MONOCHROME = "FALSE";
 		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-		defparam VGA.BACKGROUND_IMAGE = "image.colour.mif";
+		defparam VGA.BACKGROUND_IMAGE = "chessGrid.mif";
 			
 	// Put your code here. Your code should produce signals x,y,colour and writeEn/plot
 	// for the VGA controller, in addition to any other functionality your design may require.
@@ -114,11 +115,11 @@ module MainModule
     
 endmodule
 
-module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, colour_out, end_signal);
+module MileStoneTwo(resetn, clk, confirm, address_grid, grid, restart, winner, x_out, y_out, colour_out, end_signal);
     input resetn;
     input clk;
-    input confirm;
-    input [3:0] address;
+    input confirm, restart;
+    input [3:0] address_grid;
     output [7:0] x_out;
     output [6:0] y_out;
     output [2:0] colour_out;
@@ -126,30 +127,57 @@ module MileStoneTwo(resetn, clk, confirm, address, grid, winner, x_out, y_out, c
     output [17:0] grid;
     wire ld_grid, ld_score, board_clear;
 	wire [1:0] value;
+    wire [3:0] p1, p2, tie;
+    wire [14:0] p1_decoded, p2_decoded, tie_decoded;
     output end_signal;
     WinCondition wc(.grid(grid[17:0]), 
     .winner(winner[1:0]), 
     .end_signal(end_signal));
 
-    FSMControl control(.clk(clk), 
-    .resetn(resetn), 
-    .confirm(confirm), 
-    .winner(winner[1:0]),
-    .end_sig(end_signal), 
-    .ld(ld), 
-    .value(value));
+    FSMControl control(
+        .clk(clk),
+        .resetn(resetn), 
+        .confirm(confirm),
+        .restart(restart), 
+        .winner(winner[1:0]),
+        .end_sig(end_signal),
+        .ld_grid(ld_grid),
+        .ld_score(ld_score),
+        .board_clear(board_clear), 
+        .value(value)
+    );
 
     DataPathGrid dg(
         .resetn(resetn), 
         .value(value), 
-        .ld(ld), 
-        .address(address),
+        .ld_grid(ld_grid),
+        .ld_score(ld_score),
+        .board_clear(board_clear), 
+        .address_grid(address_grid),
         .grid(grid[17:0]),
+        .winner(winner),
+        .p1(p1),
+        .p2(p2),
+        .tie(tie),
         .clk(clk)
     );
-
+    NumToGridDecoder ntgd1(
+        .num(p1),
+        .num_board(p1_decoded)
+    );
+    NumToGridDecoder ntgd2(
+        .num(p2),
+        .num_board(p2_decoded)
+    );
+    NumToGridDecoder ntgdtie(
+        .num(tie),
+        .num_board(tie_decoded)
+    );
     ActualToDraw atd(
         .grid(grid),
+        .p1_decoded(p1_decoded),
+        .p2_decoded(p2_decoded),
+        .tie_decoded(tie_decoded),
         .x_out(x_out),
         .y_out(y_out),
         .colour_out(colour_out),
