@@ -6,3 +6,4 @@
 /incremental_db
 c5_pin_model_dump.txt
 *.qws
+*.v.bak
