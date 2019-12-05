@@ -102,7 +102,7 @@ module MainModule
 		defparam VGA.RESOLUTION = "160x120";
 		defparam VGA.MONOCHROME = "FALSE";
 		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-		defparam VGA.BACKGROUND_IMAGE = "black.mif";
+		defparam VGA.BACKGROUND_IMAGE = "chessGrid.mif";
 			
 	// Put your code here. Your code should produce signals x,y,colour and writeEn/plot
 	// for the VGA controller, in addition to any other functionality your design may require.
@@ -195,7 +195,7 @@ module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_sc
     reg [3:0] current_state, next_state;
     output reg ld_grid, ld_score, board_clear;
 	output reg [1:0] value;
-    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3,end_state = 4'd4, end_state_idle = 4'd5;
+    localparam load_one_idle = 4'd0, load_one = 4'd1, load_two_idle = 4'd2, load_two = 4'd3,end_state = 4'd4, end_state_idle_1 = 4'd5, end_state_idle_2 = 4'd6;
     always @(*) begin
         case (current_state)
             load_one_idle: begin
@@ -241,14 +241,17 @@ module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_sc
             end
 
             end_state: begin
-                next_state = end_state_idle;
+                next_state = end_state_idle_1;
 				end
-            end_state_idle: begin
+            end_state_idle_1: begin
                 if (~restart)
-                    next_state = load_one_idle;
+                    next_state = end_state_idle_2;
                 else
-                    next_state = end_state_idle;
+                    next_state = end_state_idle_1;
 				end
+			end_state_idle_2: begin 
+				next_state = load_one_idle;
+			end
             default: begin
                 next_state = load_one_idle;
 				end
@@ -260,6 +263,9 @@ module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_sc
         ld_score = 1'b0;
         board_clear = 1'b0;
         case (current_state)
+			end_state_idle_2: begin
+				board_clear = 1'b1;
+			end
             load_one: begin
                 value = 2'd1;
                 ld_grid = 1'b1;
@@ -270,8 +276,6 @@ module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_sc
             end
             end_state:
                 ld_score = 1'b1;
-            end_state_idle:
-                board_clear = 1'b1;
 		endcase
 
     end

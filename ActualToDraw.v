@@ -25,6 +25,7 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
         .p2_decoded(p2_decoded),
         .tie_decoded(tie_decoded),
         .which_one(which_one),
+		.score_location(score_location),
         .x_out(x),
         .y_out(y),
         .colour_out(colour_out)
