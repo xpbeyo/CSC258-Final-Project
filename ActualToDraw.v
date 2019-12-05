@@ -11,7 +11,7 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
     output [7:0] x_out;
     output [6:0] y_out;
     output [2:0] colour_out;
-    reg [3:0] enable;
+    reg [4:0] enable;
 	
     localparam piece_width = 5'd26, num_width = 5'd2;
 
@@ -107,7 +107,7 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
             5'd21: begin
                 score_location <= 4'hC;
             end
-            5'd22 begin
+            5'd22: begin
                 score_location <= 4'hD;
             end
             5'd23: begin
@@ -125,7 +125,7 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
     // Counter for x
     always @(posedge clk) begin
         if (~resetn) begin
-		    enable <= 4'd0;
+		    enable <= 5'd0;
             count_x <= 5'd0;
             which_one <= 2'b00;
             width <= piece_width;
@@ -153,7 +153,7 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
                             enable <= enable + 5'd1;
                         else if (enable == 5'd8) begin
                             which_one <= which_one + 1'b1;
-                            enable = enable + 5'd1;
+                            enable <= enable + 5'd1;
                         end
                         else if (enable == 5'd23) begin
                             which_one <= which_one + 1'b1;

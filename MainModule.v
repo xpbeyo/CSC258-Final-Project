@@ -102,7 +102,7 @@ module MainModule
 		defparam VGA.RESOLUTION = "160x120";
 		defparam VGA.MONOCHROME = "FALSE";
 		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-		defparam VGA.BACKGROUND_IMAGE = "chessGrid.mif";
+		defparam VGA.BACKGROUND_IMAGE = "black.mif";
 			
 	// Put your code here. Your code should produce signals x,y,colour and writeEn/plot
 	// for the VGA controller, in addition to any other functionality your design may require.
@@ -242,14 +242,16 @@ module FSMControl(clk, resetn, confirm, restart, winner, end_sig, ld_grid, ld_sc
 
             end_state: begin
                 next_state = end_state_idle;
+				end
             end_state_idle: begin
                 if (~restart)
                     next_state = load_one_idle;
                 else
                     next_state = end_state_idle;
+				end
             default: begin
                 next_state = load_one_idle;
-			end
+				end
         endcase
     end
     always @(*) begin
@@ -319,23 +321,23 @@ module DataPathGrid(resetn, value, ld_grid, ld_score, board_clear, address_grid,
             grid[1:0] = 2'd0;
         end
         else if (ld_grid) begin
-            if (address == 4'b0000)
+            if (address_grid == 4'b0000)
                 grid[17:16] <= value;
-            else if (address == 4'b0001)
+            else if (address_grid == 4'b0001)
                 grid[15:14] <= value;
-            else if (address == 4'b0010)
+            else if (address_grid == 4'b0010)
                 grid[13:12] <= value;
-            else if (address == 4'b0011)
+            else if (address_grid == 4'b0011)
                 grid[11:10] <= value;
-            else if (address == 4'b0100)
+            else if (address_grid == 4'b0100)
                 grid[9:8] <= value;
-            else if (address == 4'b0101)
+            else if (address_grid == 4'b0101)
                 grid[7:6] <= value;
-            else if (address == 4'b0110)
+            else if (address_grid == 4'b0110)
                 grid[5:4] <= value;
-            else if (address == 4'b0111)
+            else if (address_grid == 4'b0111)
                 grid[3:2] <= value;
-            else if (address == 4'b1000)
+            else if (address_grid == 4'b1000)
                 grid[1:0] <= value; 
         end
         else if (ld_score) begin

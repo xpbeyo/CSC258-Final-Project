@@ -2,7 +2,7 @@ module NumToGridDecoder(num, num_board);
     input [3:0] num;
     output reg [14:0] num_board;
     always @(*) begin
-        case (num) begin
+        case (num)
             4'h0: num_board = 15'b111101101101111;
             4'h1: num_board = 15'b010010010010010;
             4'h2: num_board = 15'b111001111100111;
