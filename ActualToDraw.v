@@ -70,52 +70,52 @@ module ActualToDraw(grid, p1_decoded, p2_decoded, tie_decoded, x_out, y_out, col
                 pos_j <= 5'd0;
             end
             5'd9: begin
-                score_location <= 4'h0;
+                score_location <= 4'hE;
             end
             5'd10: begin
-                score_location <= 4'h1;
+                score_location <= 4'hD;
             end
             5'd11: begin
-                score_location <= 4'h2;
+                score_location <= 4'hC;
             end
             5'd12: begin
-                score_location <= 4'h3;
+                score_location <= 4'hB;
             end
             5'd13: begin
-                score_location <= 4'h4;
+                score_location <= 4'hA;
             end
             5'd14: begin
-                score_location <= 4'h5;
+                score_location <= 4'h9;
             end
             5'd15: begin
-                score_location <= 4'h6;
+                score_location <= 4'h8;
             end
             5'd16: begin
                 score_location <= 4'h7;
             end
             5'd17: begin
-                score_location <= 4'h8;
+                score_location <= 4'h6;
             end
             5'd18: begin
-                score_location <= 4'h9;
+                score_location <= 4'h5;
             end
             5'd19: begin
-                score_location <= 4'hA;
+                score_location <= 4'h4;
             end
             5'd20: begin
-                score_location <= 4'hB;
+                score_location <= 4'h3;
             end
             5'd21: begin
-                score_location <= 4'hC;
+                score_location <= 4'h2;
             end
             5'd22: begin
-                score_location <= 4'hD;
+                score_location <= 4'h1;
             end
             5'd23: begin
-                score_location <= 4'hE;
+                score_location <= 4'h0;
             end
 			default: begin
-				score_location <= 4'h0;
+				score_location <= 4'hE;
 			end
 
         endcase
