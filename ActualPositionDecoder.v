@@ -133,70 +133,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                if (score_location == 4'hE) begin
                     x_out = 8'd44;
                     y_out = 7'd103;
-                    if (p1_decoded[0] == 1'b0) begin
+                    if (p1_decoded[14] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[0] == 1'b1) begin
+                    else if (p1_decoded[14] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hD) begin
                     x_out = 8'd46;
                     y_out = 7'd103;
-                    if (p1_decoded[1] == 1'b0) begin
+                    if (p1_decoded[13] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[1] == 1'b1) begin
+                    else if (p1_decoded[13] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hC) begin
                     x_out = 8'd48;
                     y_out = 7'd103;
-                    if (p1_decoded[2] == 1'b0) begin
+                    if (p1_decoded[12] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[2] == 1'b1) begin
+                    else if (p1_decoded[12] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hB) begin
                     x_out = 8'd44;
                     y_out = 7'd105;
-                    if (p1_decoded[3] == 1'b0) begin
+                    if (p1_decoded[11] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[3] == 1'b1) begin
+                    else if (p1_decoded[11] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hA) begin
                     x_out = 8'd46;
                     y_out = 7'd105;
-                    if (p1_decoded[4] == 1'b0) begin
+                    if (p1_decoded[10] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[4] == 1'b1) begin
+                    else if (p1_decoded[10] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h9) begin
                     x_out = 8'd48;
                     y_out = 7'd105;
-                    if (p1_decoded[5] == 1'b0) begin
+                    if (p1_decoded[9] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[5] == 1'b1) begin
+                    else if (p1_decoded[9] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h8) begin
                     x_out = 8'd44;
                     y_out = 7'd107;
-                    if (p1_decoded[6] == 1'b0) begin
+                    if (p1_decoded[8] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[6] == 1'b1) begin
+                    else if (p1_decoded[8] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
@@ -213,70 +213,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                else if (score_location == 4'h6) begin
                     x_out = 8'd48;
                     y_out = 7'd107;
-                    if (p1_decoded[8] == 1'b0) begin
+                    if (p1_decoded[6] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[8] == 1'b1) begin
+                    else if (p1_decoded[6] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h5) begin
                     x_out = 8'd44;
                     y_out = 7'd109;
-                    if (p1_decoded[9] == 1'b0) begin
+                    if (p1_decoded[5] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[9] == 1'b1) begin
+                    else if (p1_decoded[5] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h4) begin
                     x_out = 8'd46;
                     y_out = 7'd109;
-                    if (p1_decoded[10] == 1'b0) begin
+                    if (p1_decoded[4] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[10] == 1'b1) begin
+                    else if (p1_decoded[4] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h3) begin
                     x_out = 8'd48;
                     y_out = 7'd109;
-                    if (p1_decoded[11] == 1'b0) begin
+                    if (p1_decoded[3] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[11] == 1'b1) begin
+                    else if (p1_decoded[3] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h2) begin
                     x_out = 8'd44;
                     y_out = 7'd111;
-                    if (p1_decoded[12] == 1'b0) begin
+                    if (p1_decoded[2] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[12] == 1'b1) begin
+                    else if (p1_decoded[2] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h1) begin
                     x_out = 8'd46;
                     y_out = 7'd111;
-                    if (p1_decoded[13] == 1'b0) begin
+                    if (p1_decoded[1] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[13] == 1'b1) begin
+                    else if (p1_decoded[1] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h0) begin
                     x_out = 8'd48;
                     y_out = 7'd111;
-                    if (p1_decoded[14] == 1'b0) begin
+                    if (p1_decoded[0] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p1_decoded[14] == 1'b1) begin
+                    else if (p1_decoded[0] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
@@ -285,70 +285,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                if (score_location == 4'hE) begin
                     x_out = 8'd84;
                     y_out = 7'd103;
-                    if (p2_decoded[0] == 1'b0) begin
+                    if (p2_decoded[14] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[0] == 1'b1) begin
+                    else if (p2_decoded[14] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hD) begin
                     x_out = 8'd86;
                     y_out = 7'd103;
-                    if (p2_decoded[1] == 1'b0) begin
+                    if (p2_decoded[13] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[1] == 1'b1) begin
+                    else if (p2_decoded[13] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hC) begin
                     x_out = 8'd88;
                     y_out = 7'd103;
-                    if (p2_decoded[2] == 1'b0) begin
+                    if (p2_decoded[12] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[2] == 1'b1) begin
+                    else if (p2_decoded[12] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hB) begin
                     x_out = 8'd84;
                     y_out = 7'd105;
-                    if (p2_decoded[3] == 1'b0) begin
+                    if (p2_decoded[11] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[3] == 1'b1) begin
+                    else if (p2_decoded[11] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hA) begin
                     x_out = 8'd86;
                     y_out = 7'd105;
-                    if (p2_decoded[4] == 1'b0) begin
+                    if (p2_decoded[10] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[4] == 1'b1) begin
+                    else if (p2_decoded[10] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h9) begin
                     x_out = 8'd88;
                     y_out = 7'd105;
-                    if (p2_decoded[5] == 1'b0) begin
+                    if (p2_decoded[9] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[5] == 1'b1) begin
+                    else if (p2_decoded[9] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h8) begin
                     x_out = 8'd84;
                     y_out = 7'd107;
-                    if (p2_decoded[6] == 1'b0) begin
+                    if (p2_decoded[8] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[6] == 1'b1) begin
+                    else if (p2_decoded[8] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
@@ -365,70 +365,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                else if (score_location == 4'h6) begin
                     x_out = 8'd88;
                     y_out = 7'd107;
-                    if (p2_decoded[8] == 1'b0) begin
+                    if (p2_decoded[6] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[8] == 1'b1) begin
+                    else if (p2_decoded[6] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h5) begin
                     x_out = 8'd84;
                     y_out = 7'd109;
-                    if (p2_decoded[9] == 1'b0) begin
+                    if (p2_decoded[5] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[9] == 1'b1) begin
+                    else if (p2_decoded[5] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h4) begin
                     x_out = 8'd86;
                     y_out = 7'd109;
-                    if (p2_decoded[10] == 1'b0) begin
+                    if (p2_decoded[4] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[10] == 1'b1) begin
+                    else if (p2_decoded[4] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h3) begin
                     x_out = 8'd88;
                     y_out = 7'd109;
-                    if (p2_decoded[11] == 1'b0) begin
+                    if (p2_decoded[3] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[11] == 1'b1) begin
+                    else if (p2_decoded[3] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h2) begin
                     x_out = 8'd84;
                     y_out = 7'd111;
-                    if (p2_decoded[12] == 1'b0) begin
+                    if (p2_decoded[2] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[12] == 1'b1) begin
+                    else if (p2_decoded[2] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h1) begin
                     x_out = 8'd86;
                     y_out = 7'd111;
-                    if (p2_decoded[13] == 1'b0) begin
+                    if (p2_decoded[1] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[13] == 1'b1) begin
+                    else if (p2_decoded[1] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h0) begin
                     x_out = 8'd88;
                     y_out = 7'd111;
-                    if (p2_decoded[14] == 1'b0) begin
+                    if (p2_decoded[0] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (p2_decoded[14] == 1'b1) begin
+                    else if (p2_decoded[0] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
@@ -437,70 +437,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                if (score_location == 4'hE) begin
                     x_out = 8'd124;
                     y_out = 7'd103;
-                    if (tie_decoded[0] == 1'b0) begin
+                    if (tie_decoded[14] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[0] == 1'b1) begin
+                    else if (tie_decoded[14] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hD) begin
                     x_out = 8'd126;
                     y_out = 7'd103;
-                    if (tie_decoded[1] == 1'b0) begin
+                    if (tie_decoded[13] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[1] == 1'b1) begin
+                    else if (tie_decoded[13] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hC) begin
                     x_out = 8'd128;
                     y_out = 7'd103;
-                    if (tie_decoded[2] == 1'b0) begin
+                    if (tie_decoded[12] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[2] == 1'b1) begin
+                    else if (tie_decoded[12] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hB) begin
                     x_out = 8'd124;
                     y_out = 7'd105;
-                    if (tie_decoded[3] == 1'b0) begin
+                    if (tie_decoded[11] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[3] == 1'b1) begin
+                    else if (tie_decoded[11] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'hA) begin
                     x_out = 8'd126;
                     y_out = 7'd105;
-                    if (tie_decoded[4] == 1'b0) begin
+                    if (tie_decoded[10] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[4] == 1'b1) begin
+                    else if (tie_decoded[10] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h9) begin
                     x_out = 8'd128;
                     y_out = 7'd105;
-                    if (tie_decoded[5] == 1'b0) begin
+                    if (tie_decoded[9] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[5] == 1'b1) begin
+                    else if (tie_decoded[9] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h8) begin
                     x_out = 8'd124;
                     y_out = 7'd107;
-                    if (tie_decoded[6] == 1'b0) begin
+                    if (tie_decoded[8] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[6] == 1'b1) begin
+                    else if (tie_decoded[8] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
@@ -517,70 +517,70 @@ module ActualPositionDecoder(grid, i_x, i_y, p1_decoded, p2_decoded, tie_decoded
                else if (score_location == 4'h6) begin
                     x_out = 8'd128;
                     y_out = 7'd107;
-                    if (tie_decoded[8] == 1'b0) begin
+                    if (tie_decoded[6] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[8] == 1'b1) begin
+                    else if (tie_decoded[6] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h5) begin
                     x_out = 8'd124;
                     y_out = 7'd109;
-                    if (tie_decoded[9] == 1'b0) begin
+                    if (tie_decoded[5] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[9] == 1'b1) begin
+                    else if (tie_decoded[5] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h4) begin
                     x_out = 8'd126;
                     y_out = 7'd109;
-                    if (tie_decoded[10] == 1'b0) begin
+                    if (tie_decoded[4] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[10] == 1'b1) begin
+                    else if (tie_decoded[4] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h3) begin
                     x_out = 8'd128;
                     y_out = 7'd109;
-                    if (tie_decoded[11] == 1'b0) begin
+                    if (tie_decoded[3] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[11] == 1'b1) begin
+                    else if (tie_decoded[3] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h2) begin
                     x_out = 8'd124;
                     y_out = 7'd111;
-                    if (tie_decoded[12] == 1'b0) begin
+                    if (tie_decoded[2] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[12] == 1'b1) begin
+                    else if (tie_decoded[2] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h1) begin
                     x_out = 8'd126;
                     y_out = 7'd111;
-                    if (tie_decoded[13] == 1'b0) begin
+                    if (tie_decoded[1] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[13] == 1'b1) begin
+                    else if (tie_decoded[1] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
                else if (score_location == 4'h0) begin
                     x_out = 8'd128;
                     y_out = 7'd111;
-                    if (tie_decoded[14] == 1'b0) begin
+                    if (tie_decoded[0] == 1'b0) begin
                          colour_out = 3'b111;
                     end
-                    else if (tie_decoded[14] == 1'b1) begin
+                    else if (tie_decoded[0] == 1'b1) begin
                          colour_out = 3'b000;
                     end
                end
